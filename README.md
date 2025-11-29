@@ -3,72 +3,174 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Website Kelas 9D - Tema Laut</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Kelas 9D - Tema Laut</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        /* --- General Styling & Theme --- */
-        @keyframes float-up {
-            to {
-                transform: translateY(-120vh) rotate(360deg);
-            }
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInRight {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            50% { transform: translateX(-30px); }
-            100% { transform: translateX(0); }
-        }
-
-        :root {
-            --ocean-deep: #003459;
-            --ocean-primary: #0077be;
-            --ocean-light: #00a8cc;
-            --sand: #f4f1de;
-            --coral: #e07a5f;
-            --seafoam: #a8e6cf;
-            --white: #ffffff;
-            --text-dark: #2c3e50;
-            --shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-            --btn-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-family: 'Quicksand', sans-serif;
-            background: linear-gradient(180deg, var(--ocean-deep) 0%, var(--ocean-primary) 100%);
-            color: var(--text-dark);
-            margin: 0;
-            padding: 20px;
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
             min-height: 100vh;
+            padding: 20px;
+            color: white;
             overflow-x: hidden;
         }
 
-        /* --- Animated Background --- */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 25px 20px;
+            text-align: center;
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-card h3 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .stat-card p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .navigation {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .nav-card {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+        }
+
+        .nav-card:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-5px);
+        }
+
+        .nav-card i {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            color: #a8e6cf;
+        }
+
+        .nav-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+        }
+
+        .nav-card p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+            font-size: 1.1rem;
+            opacity: 0.9;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
         .ocean-bg {
             position: fixed;
-            width: 100%;
-            height: 100%;
             top: 0;
             left: 0;
+            width: 100%;
+            height: 100%;
             z-index: -1;
             overflow: hidden;
         }
 
+        .wave {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100px;
+            background: url('data:image/svg+xml;utf8,<svg viewBox="0 0 1200 120" xmlns="http://www.w3.org/2000/svg" fill="%2300a8cc22"><path d="M0 0v46.29c47.79 22.2 103.59 32.17 158 28 70.36-5.37 136.33-33.31 206.8-37.5 58.18-4.84 113.48 12.24 168.58 35.26 30.2 12.98 59 26.93 87.62 40.28 37.92 17.19 76.24 31.71 116.94 33.05 59.73 2.02 113.28-22.88 168.9-38.84 30.2-8.66 59-6.17 87.09 7.5 22.43 10.89 48 26.93 60.65 49.24V0z" /></svg>');
+            background-size: 1200px 100px;
+            animation: wave 12s linear infinite;
+        }
+
+        .wave:nth-child(2) {
+            bottom: 10px;
+            animation: wave 18s linear infinite;
+            opacity: 0.7;
+        }
+
+        .wave:nth-child(3) {
+            bottom: 20px;
+            animation: wave 24s linear infinite;
+            opacity: 0.5;
+        }
+
         .bubble {
             position: absolute;
-            bottom: -100px;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0.1) 70%);
+            background: rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            opacity: 0.6;
-            animation: float-up linear infinite;
+            animation: float linear infinite;
         }
 
         .bubble:nth-child(1) { width: 40px; height: 40px; left: 10%; animation-duration: 15s; animation-delay: 0s; }
@@ -79,406 +181,224 @@
         .bubble:nth-child(6) { width: 45px; height: 45px; left: 80%; animation-duration: 19s; animation-delay: 1s; }
         .bubble:nth-child(7) { width: 15px; height: 15px; left: 90%; animation-duration: 11s; animation-delay: 2s; }
 
-        /* Wave decoration */
-        .wave-decoration {
+        .fish {
             position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100px;
-            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" fill="%2300a8cc"/><path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" fill="%2300a8cc"/><path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" fill="%2300a8cc"/></svg>');
-            background-size: cover;
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(45deg, #FF9A00, #FF6B6B);
+            border-radius: 50% 10px 10px 50%;
+            animation: swim 20s infinite linear;
             z-index: -1;
-            animation: wave 10s infinite linear;
+            opacity: 0.7;
         }
-
-        /* --- Main Container --- */
-        .container {
-            max-width: 1100px;
-            margin: 20px auto;
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            animation: fadeIn 0.8s ease-out;
-        }
-
-        header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding-bottom: 15px;
-            border-bottom: 3px solid var(--ocean-light);
-            position: relative;
-        }
-
-        header h1 {
-            color: var(--ocean-deep);
-            margin: 0;
-            font-weight: 700;
-            font-size: 2.5em;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
-        }
-
-        header p {
-            color: var(--ocean-primary);
-            margin: 5px 0 0 0;
-            font-weight: 500;
-        }
-
-        /* --- Navigation --- */
-        nav {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 30px;
-            flex-wrap: wrap;
-        }
-
-        .nav-btn {
-            padding: 12px 25px;
-            background: linear-gradient(135deg, var(--ocean-light), var(--ocean-primary));
-            color: var(--white);
-            border: 2px solid transparent;
-            border-radius: 50px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-            box-shadow: var(--btn-shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .nav-btn::before {
+        
+        .fish:before {
             content: '';
             position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
+            top: 5px;
+            right: -5px;
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-left: 10px solid #FF6B6B;
         }
+        
+        .fish:nth-child(1) { top: 20%; left: 5%; animation-delay: 0s; }
+        .fish:nth-child(2) { top: 60%; left: 15%; animation-delay: 2s; }
+        .fish:nth-child(3) { top: 40%; left: 80%; animation-delay: 4s; }
 
-        .nav-btn:hover::before {
-            left: 100%;
-        }
-
-        .nav-btn.active {
-            background: linear-gradient(135deg, var(--ocean-primary), var(--ocean-deep));
-            transform: scale(1.05);
-            box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
-        }
-
-        .nav-btn:hover:not(.active) {
-            background: linear-gradient(135deg, var(--coral), #d86a52);
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(224, 122, 95, 0.4);
-        }
-
-        /* --- Sections --- */
-        .content-section {
+        /* Halaman Kas */
+        .page {
             display: none;
-        }
-
-        .content-section.active {
-            display: block;
             animation: fadeIn 0.5s;
         }
 
-        h2 {
-            color: var(--ocean-deep);
-            border-bottom: 2px solid var(--ocean-light);
-            padding-bottom: 5px;
-            margin-top: 0;
-            position: relative;
-            padding-left: 15px;
+        .page.active {
+            display: block;
         }
 
-        h2::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            width: 5px;
-            background: linear-gradient(to bottom, var(--ocean-light), var(--ocean-primary));
-            border-radius: 3px;
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        /* --- Form Elements --- */
+        .back-btn {
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: white;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section h3 {
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
         .form-group {
             margin-bottom: 15px;
         }
 
-        label {
+        .form-group label {
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
-            color: var(--ocean-primary);
         }
 
-        input[type="date"],
-        input[type="number"],
-        select,
-        textarea {
+        .form-group input, .form-group select, .form-group textarea {
             width: 100%;
             padding: 12px 15px;
-            border: 1px solid var(--ocean-light);
             border-radius: 10px;
-            box-sizing: border-box;
-            font-size: 14px;
-            font-family: 'Quicksand', sans-serif;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 1rem;
         }
 
-        input[type="date"]:focus,
-        input[type="number"]:focus,
-        select:focus,
-        textarea:focus {
-            outline: none;
-            border-color: var(--ocean-primary);
-            box-shadow: 0 0 0 3px rgba(0, 119, 190, 0.2);
-            background: rgba(255, 255, 255, 1);
-        }
-
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+        .form-group input::placeholder, .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.6);
         }
 
         .btn {
-            padding: 12px 25px;
-            background: linear-gradient(135deg, var(--ocean-primary), var(--ocean-light));
-            color: var(--white);
+            background: rgba(255, 255, 255, 0.2);
             border: none;
-            border-radius: 50px;
+            border-radius: 10px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 1rem;
             cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
             transition: all 0.3s ease;
-            font-family: 'Quicksand', sans-serif;
-            box-shadow: var(--btn-shadow);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .btn:hover {
-            background: linear-gradient(135deg, var(--ocean-light), var(--ocean-primary));
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 119, 190, 0.4);
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #4CAF50, #45a049);
-        }
-        .btn-success:hover {
-            background: linear-gradient(135deg, #45a049, #4CAF50);
+            background: rgba(76, 175, 80, 0.6);
         }
 
-        /* --- Tables --- */
+        .btn-success:hover {
+            background: rgba(76, 175, 80, 0.8);
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
             border-radius: 10px;
             overflow: hidden;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
 
         th, td {
-            padding: 12px;
+            padding: 12px 15px;
             text-align: left;
-            border-bottom: 1px solid rgba(0, 119, 190, 0.2);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         th {
-            background: linear-gradient(135deg, var(--ocean-light), var(--ocean-primary));
+            background: rgba(255, 255, 255, 0.2);
             font-weight: 600;
-            color: var(--white);
-        }
-
-        tr:nth-child(even) {
-            background-color: rgba(244, 241, 222, 0.3);
         }
 
         tr:hover {
-            background-color: rgba(0, 168, 204, 0.1);
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        /* --- Radio & Checkbox --- */
-        .radio-group, .checkbox-group {
-            display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
-        .radio-group label, .checkbox-group label {
-            font-weight: 500;
-            color: var(--text-dark);
-        }
-
-        /* --- Dashboard Board --- */
-        .board-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin-top: 20px;
-        }
-
-        .summary-card {
-            background: linear-gradient(135deg, var(--ocean-light), var(--ocean-primary));
-            color: var(--white);
-            padding: 25px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0, 119, 190, 0.3);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .summary-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-            transform: rotate(30deg);
-        }
-
-        .summary-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 8px 25px rgba(0, 119, 190, 0.4);
-        }
-
-        .summary-card h3 {
-            font-size: 36px;
-            margin: 10px 0 0 0;
-            font-weight: 700;
-        }
-
-        .summary-card p {
-            margin: 0;
-            font-weight: 500;
-            font-size: 18px;
-        }
-
-        /* --- Utility --- */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: linear-gradient(135deg, var(--ocean-primary), var(--ocean-light));
-            color: white;
-            border-radius: 10px;
-            box-shadow: var(--shadow);
-            opacity: 0;
-            transition: opacity 0.5s, transform 0.5s;
-            transform: translateX(100%);
-            z-index: 1000;
-            font-weight: 600;
-        }
-
-        .notification.show {
-            opacity: 1;
-            transform: translateX(0);
-            animation: slideInRight 0.5s;
-        }
-
-        /* --- Attendance Status Styling --- */
-        .attendance-status {
+        .attendance-options {
             display: flex;
             gap: 10px;
-            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        .status-option {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            padding: 5px 10px;
-            border-radius: 20px;
+        .attendance-option {
+            padding: 8px 15px;
+            border-radius: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
-            font-size: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        .status-option.hadir { background-color: rgba(76, 175, 80, 0.2); color: #2e7d32; }
-        .status-option.sakit { background-color: rgba(255, 152, 0, 0.2); color: #ef6c00; }
-        .status-option.izin { background-color: rgba(33, 150, 243, 0.2); color: #1565c0; }
-        .status-option.alpa { background-color: rgba(244, 67, 54, 0.2); color: #c62828; }
-
-        .status-option.selected {
+        .attendance-option.selected {
+            background: rgba(255, 255, 255, 0.3);
             transform: scale(1.05);
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         }
 
-        .status-option:hover {
-            transform: translateY(-2px);
+        .attendance-option.hadir { background: rgba(76, 175, 80, 0.3); }
+        .attendance-option.sakit { background: rgba(255, 152, 0, 0.3); }
+        .attendance-option.izin { background: rgba(33, 150, 243, 0.3); }
+        .attendance-option.alpa { background: rgba(244, 67, 54, 0.3); }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            50% { transform: translateX(-25%); }
+            100% { transform: translateX(-50%); }
         }
 
-        /* --- Responsive Adjustments --- */
+        @keyframes float {
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+            }
+        }
+
+        @keyframes swim {
+            0% { transform: translateX(0) translateY(0); }
+            25% { transform: translateX(200px) translateY(-50px); }
+            50% { transform: translateX(400px) translateY(0); }
+            75% { transform: translateX(600px) translateY(50px); }
+            100% { transform: translateX(1000px) translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
         @media (max-width: 768px) {
-            .container {
-                padding: 15px;
-                margin: 10px;
+            .header h1 {
+                font-size: 2.2rem;
             }
             
-            header h1 {
-                font-size: 2em;
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
             }
             
-            nav {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .nav-btn {
-                width: 100%;
-                max-width: 250px;
-            }
-            
-            .board-grid {
+            .navigation {
                 grid-template-columns: 1fr;
-            }
-            
-            table {
-                font-size: 14px;
-            }
-            
-            th, td {
-                padding: 8px;
             }
         }
     </style>
 </head>
 <body>
-
-    <!-- Animated Background -->
     <div class="ocean-bg">
+        <div class="wave"></div>
+        <div class="wave"></div>
+        <div class="wave"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
@@ -486,58 +406,91 @@
         <div class="bubble"></div>
         <div class="bubble"></div>
         <div class="bubble"></div>
-        <div class="wave-decoration"></div>
+        <div class="fish"></div>
+        <div class="fish"></div>
+        <div class="fish"></div>
     </div>
 
-    <div class="container">
-        <header>
-            <h1>🌊 Kelas 9D 🌊</h1>
-            <p>Mengarungi Samudra Pengetahuan Bersama</p>
-        </header>
+    <!-- Halaman Utama -->
+    <div class="container page active" id="main-page">
+        <div class="header">
+            <h1>Kelas 9D</h1>
+            <p>Sistem Manajemen Kelas Bertema Laut</p>
+        </div>
 
-        <nav>
-            <button class="nav-btn active" data-target="board-section">📊 Dashboard</button>
-            <button class="nav-btn" data-target="absensi-section">📝 Absensi</button>
-            <button class="nav-btn" data-target="jurnal-section">📔 Jurnal</button>
-            <button class="nav-btn" data-target="kas-section">💰 Kas Kelas</button>
-        </nav>
-
-        <main>
-            <!-- Board Section -->
-            <section id="board-section" class="content-section active">
-                <h2>Dashboard Kelas</h2>
-                <div class="board-grid">
-                    <div class="summary-card">
-                        <p>👨‍🎓 Jumlah Hadir</p>
-                        <h3 id="total-hadir">0</h3>
-                    </div>
-                    <div class="summary-card">
-                        <p>🤒 Jumlah Sakit</p>
-                        <h3 id="total-sakit">0</h3>
-                    </div>
-                    <div class="summary-card">
-                        <p>📝 Jumlah Izin</p>
-                        <h3 id="total-izin">0</h3>
-                    </div>
-                    <div class="summary-card">
-                        <p>❌ Jumlah Alpa</p>
-                        <h3 id="total-alpa">0</h3>
-                    </div>
-                    <div class="summary-card">
-                        <p>💰 Total Kas</p>
-                        <h3 id="total-kas-bulanan">Rp 0</h3>
-                    </div>
+        <div class="glass-card">
+            <div class="stats-container">
+                <div class="stat-card">
+                    <h3 id="hadir-count">0</h3>
+                    <p>Hadir</p>
                 </div>
-            </section>
+                <div class="stat-card">
+                    <h3 id="sakit-count">0</h3>
+                    <p>Sakit</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="izin-count">0</h3>
+                    <p>Izin</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="alpa-count">0</h3>
+                    <p>Alpa</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="kas-total">Rp 0</h3>
+                    <p>Total Kas</p>
+                </div>
+            </div>
 
-            <!-- Absensi Section -->
-            <section id="absensi-section" class="content-section">
-                <h2>Absensi Siswa</h2>
+            <div class="navigation">
+                <div class="nav-card" onclick="showPage('absensi-page')">
+                    <i class="fas fa-clipboard-list"></i>
+                    <h3>Absensi</h3>
+                    <p>Catat kehadiran siswa</p>
+                </div>
+                <div class="nav-card" onclick="showPage('jurnal-page')">
+                    <i class="fas fa-book"></i>
+                    <h3>Jurnal</h3>
+                    <p>Buat catatan jurnal</p>
+                </div>
+                <div class="nav-card" onclick="showPage('kas-page')">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <h3>Kas Kelas</h3>
+                    <p>Kelola kas kelas</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Kedalaman laut mencerminkan kedalaman ilmu kita!</p>
+            <p>Total Siswa: 38</p>
+        </div>
+    </div>
+
+    <!-- Halaman Absensi -->
+    <div class="container page" id="absensi-page">
+        <div class="page-header">
+            <button class="back-btn" onclick="showPage('main-page')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header">
+                <h1>Absensi Kelas 9D</h1>
+                <p>Catat kehadiran siswa dengan mudah</p>
+            </div>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <div class="glass-card">
+            <div class="section">
+                <h3><i class="fas fa-calendar-alt"></i> Pilih Tanggal</h3>
                 <div class="form-group">
-                    <label for="absen-date">Pilih Tanggal:</label>
-                    <input type="date" id="absen-date">
+                    <input type="date" id="attendance-date">
                 </div>
-                <table id="absensi-table">
+            </div>
+
+            <div class="section">
+                <h3><i class="fas fa-users"></i> Daftar Siswa</h3>
+                <table>
                     <thead>
                         <tr>
                             <th>Nama Siswa</th>
@@ -545,47 +498,246 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Will be populated by JS -->
+                        <tr>
+                            <td>Agung Ramaindra Syahputra</td>
+                            <td>
+                                <div class="attendance-options">
+                                    <div class="attendance-option hadir selected">Hadir</div>
+                                    <div class="attendance-option sakit">Sakit</div>
+                                    <div class="attendance-option izin">Izin</div>
+                                    <div class="attendance-option alpa">Alpa</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Ainun Tiyas Martiningsih</td>
+                            <td>
+                                <div class="attendance-options">
+                                    <div class="attendance-option hadir selected">Hadir</div>
+                                    <div class="attendance-option sakit">Sakit</div>
+                                    <div class="attendance-option izin">Izin</div>
+                                    <div class="attendance-option alpa">Alpa</div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Alessia Alzena Riangga</td>
+                            <td>
+                                <div class="attendance-options">
+                                    <div class="attendance-option hadir">Hadir</div>
+                                    <div class="attendance-option sakit">Sakit</div>
+                                    <div class="attendance-option izin selected">Izin</div>
+                                    <div class="attendance-option alpa">Alpa</div>
+                                </div>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
-                <button class="btn btn-success" onclick="saveAttendance()" style="margin-top: 20px;">💾 Simpan Absensi</button>
-            </section>
+                <button class="btn btn-success" style="margin-top: 20px;">
+                    <i class="fas fa-save"></i> Simpan Absensi
+                </button>
+            </div>
+        </div>
+    </div>
 
-            <!-- Jurnal Section -->
-            <section id="jurnal-section" class="content-section">
-                <h2>Jurnal Kegiatan Pelajaran</h2>
+    <!-- Halaman Jurnal -->
+    <div class="container page" id="jurnal-page">
+        <div class="page-header">
+            <button class="back-btn" onclick="showPage('main-page')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header">
+                <h1>Jurnal Kelas 9D</h1>
+                <p>Catat kegiatan pembelajaran harian</p>
+            </div>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <div class="glass-card">
+            <div class="section">
+                <h3><i class="fas fa-calendar-alt"></i> Pilih Tanggal</h3>
                 <div class="form-group">
-                    <label for="jurnal-date">Pilih Tanggal:</label>
-                    <input type="date" id="jurnal-date">
+                    <input type="date" id="journal-date">
+                </div>
+            </div>
+
+            <div class="section">
+                <h3><i class="fas fa-edit"></i> Isi Jurnal</h3>
+                <div class="form-group">
+                    <textarea id="journal-content" rows="10" placeholder="Tuliskan kegiatan pembelajaran hari ini..."></textarea>
+                </div>
+                <button class="btn btn-success">
+                    <i class="fas fa-save"></i> Simpan Jurnal
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Kas -->
+    <div class="container page" id="kas-page">
+        <div class="page-header">
+            <button class="back-btn" onclick="showPage('main-page')">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="header">
+                <h1>Kas Kelas 9D</h1>
+                <p>Kelola keuangan kelas dengan mudah</p>
+            </div>
+            <div style="width: 40px;"></div>
+        </div>
+
+        <div class="glass-card">
+            <div class="section">
+                <h3><i class="fas fa-calendar-alt"></i> Kas Bulanan</h3>
+                <div class="form-group">
+                    <label for="student-select">Pilih Siswa:</label>
+                    <select id="student-select">
+                        <option value="">-- Pilih Siswa --</option>
+                        <option value="Agung Ramaindra Syahputra">Agung Ramaindra Syahputra</option>
+                        <option value="Ainun Tiyas Martiningsih">Ainun Tiyas Martiningsih</option>
+                        <option value="Alessia Alzena Riangga">Alessia Alzena Riangga</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <label for="jurnal-content">Isi Jurnal:</label>
-                    <textarea id="jurnal-content" placeholder="Tuliskan kegiatan pelajaran hari ini..."></textarea>
+                    <label for="payment-amount">Jumlah Bayar (Rp):</label>
+                    <input type="number" id="payment-amount" placeholder="Contoh: 50000">
                 </div>
-                <button class="btn btn-success" onclick="saveJournal()">💾 Simpan Jurnal</button>
-            </section>
+                <button class="btn btn-success" id="process-payment">
+                    <i class="fas fa-check"></i> Proses Pembayaran
+                </button>
+            </div>
 
-            <!-- Kas Section -->
-            <section id="kas-section" class="content-section">
-                <h2>Manajemen Kas</h2>
+            <div class="section">
+                <h3><i class="fas fa-calendar-day"></i> Kas Harian (Rp 1.000/hari)</h3>
+                <p style="margin-bottom: 15px; opacity: 0.8; font-size: 0.9rem;">
+                    <i class="fas fa-info-circle"></i> Centang akan otomatis terisi jika siswa memiliki kredit dari kas bulanan. Sabtu/Minggu libur.
+                </p>
+                <div class="form-group">
+                    <label for="daily-date">Pilih Tanggal:</label>
+                    <input type="date" id="daily-date">
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Nama Siswa</th>
+                            <th>Bayar Kas Harian</th>
+                            <th>Sisa Kredit</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Agung Ramaindra Syahputra</td>
+                            <td><input type="checkbox" checked></td>
+                            <td>Rp 45.000</td>
+                        </tr>
+                        <tr>
+                            <td>Ainun Tiyas Martiningsih</td>
+                            <td><input type="checkbox" checked></td>
+                            <td>Rp 30.000</td>
+                        </tr>
+                        <tr>
+                            <td>Alessia Alzena Riangga</td>
+                            <td><input type="checkbox"></td>
+                            <td>Rp 0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button class="btn btn-success" style="margin-top: 20px;">
+                    <i class="fas fa-save"></i> Simpan Kas Harian
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Data contoh untuk statistik
+        const sampleData = {
+            hadir: 32,
+            sakit: 2,
+            izin: 3,
+            alpa: 1,
+            kasTotal: 1250000
+        };
+
+        // Fungsi SEDERHANA untuk navigasi
+        function showPage(pageId) {
+            // Sembunyikan semua halaman
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Tampilkan halaman yang dipilih
+            document.getElementById(pageId).classList.add('active');
+        }
+
+        // Animasi untuk statistik
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animasikan angka statistik
+            animateValue('hadir-count', 0, sampleData.hadir, 1000);
+            animateValue('sakit-count', 0, sampleData.sakit, 1000);
+            animateValue('izin-count', 0, sampleData.izin, 1000);
+            animateValue('alpa-count', 0, sampleData.alpa, 1000);
+            
+            // Format dan animasi total kas
+            animateValue('kas-total', 0, sampleData.kasTotal, 1000, true);
+
+            // Event listener untuk pilihan absensi
+            document.querySelectorAll('.attendance-option').forEach(option => {
+                option.addEventListener('click', function() {
+                    // Hapus kelas selected dari semua opsi dalam grup yang sama
+                    const parent = this.parentElement;
+                    parent.querySelectorAll('.attendance-option').forEach(opt => {
+                        opt.classList.remove('selected');
+                    });
+                    
+                    // Tambahkan kelas selected ke opsi yang diklik
+                    this.classList.add('selected');
+                });
+            });
+
+            // Event listener untuk proses pembayaran
+            document.getElementById('process-payment').addEventListener('click', function() {
+                const student = document.getElementById('student-select').value;
+                const amount = document.getElementById('payment-amount').value;
                 
-                <!-- Kas Bulanan -->
-                <div style="margin-bottom: 40px;">
-                    <h3>Input Kas Bulanan</h3>
-                    <div class="form-group">
-                        <label for="kas-bulanan-student">Pilih Siswa:</label>
-                        <select id="kas-bulanan-student">
-                            <!-- Will be populated by JS -->
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="kas-bulanan-amount">Jumlah Bayar (Rp):</label>
-                        <input type="number" id="kas-bulanan-amount" placeholder="contoh: 5000">
-                    </div>
-                    <button class="btn btn-success" onclick="processMonthlyPayment()">💳 Bayar</button>
-                </div>
+                if (!student || !amount) {
+                    alert('Harap pilih siswa dan masukkan jumlah pembayaran!');
+                    return;
+                }
+                
+                alert(`Pembayaran sebesar Rp ${amount} dari ${student} berhasil diproses!`);
+                document.getElementById('student-select').value = '';
+                document.getElementById('payment-amount').value = '';
+            });
 
-                <hr>
+            // Set tanggal default untuk semua form
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('attendance-date').value = today;
+            document.getElementById('journal-date').value = today;
+            document.getElementById('daily-date').value = today;
+        });
 
-                <!-- Kas Harian -->
-             
+        // Fungsi untuk animasi angka
+        function animateValue(id, start, end, duration, isCurrency = false) {
+            const obj = document.getElementById(id);
+            let startTimestamp = null;
+            const step = (timestamp) => {
+                if (!startTimestamp) startTimestamp = timestamp;
+                const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                const value = Math.floor(progress * (end - start) + start);
+                
+                if (isCurrency) {
+                    obj.innerHTML = 'Rp ' + value.toLocaleString('id-ID');
+                } else {
+                    obj.innerHTML = value;
+                }
+                
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            window.requestAnimationFrame(step);
+        }
+    </script>
+</body>
+</html>
