@@ -282,19 +282,19 @@
         </header>
 
         <div class="nav-tabs">
-            <div class="nav-tab active" data-tab="dashboard">
+            <div class="nav-tab active" onclick="showTab('dashboard')">
                 <i class="fas fa-tachometer-alt"></i>
                 <div>Dashboard</div>
             </div>
-            <div class="nav-tab" data-tab="absen">
+            <div class="nav-tab" onclick="showTab('absen')">
                 <i class="fas fa-clipboard-check"></i>
                 <div>Absensi</div>
             </div>
-            <div class="nav-tab" data-tab="jurnal">
+            <div class="nav-tab" onclick="showTab('jurnal')">
                 <i class="fas fa-book"></i>
                 <div>Jurnal</div>
             </div>
-            <div class="nav-tab" data-tab="kas">
+            <div class="nav-tab" onclick="showTab('kas')">
                 <i class="fas fa-money-bill-wave"></i>
                 <div>Kas Kelas</div>
             </div>
@@ -343,7 +343,7 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="summary-tbody">
                         <!-- Data akan diisi JavaScript -->
                     </tbody>
                 </table>
@@ -364,15 +364,15 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="attendance-tbody">
                         <!-- Data akan diisi JavaScript -->
                     </tbody>
                 </table>
             </div>
-            <button class="btn" id="save-attendance">
+            <button class="btn" onclick="saveAttendance()">
                 <i class="fas fa-save"></i> Simpan Absensi
             </button>
-            <button class="btn btn-secondary" id="reset-attendance">
+            <button class="btn btn-secondary" onclick="resetAttendance()">
                 <i class="fas fa-redo"></i> Reset
             </button>
         </div>
@@ -390,10 +390,10 @@
                 <label for="journal-content">Isi Jurnal</label>
                 <textarea id="journal-content" placeholder="Tuliskan kegiatan kelas hari ini..."></textarea>
             </div>
-            <button class="btn" id="save-journal">
+            <button class="btn" onclick="saveJournal()">
                 <i class="fas fa-save"></i> Simpan Jurnal
             </button>
-            <button class="btn btn-secondary" id="clear-journal">
+            <button class="btn btn-secondary" onclick="clearJournalForm()">
                 <i class="fas fa-broom"></i> Bersihkan
             </button>
         </div>
@@ -415,12 +415,12 @@
                                     <th>Jumlah</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="monthly-tbody">
                                 <!-- Data akan diisi JavaScript -->
                             </tbody>
                         </table>
                     </div>
-                    <button class="btn" id="save-monthly-kas">
+                    <button class="btn" onclick="saveMonthlyKas()">
                         <i class="fas fa-save"></i> Simpan Kas
                     </button>
                 </div>
@@ -435,12 +435,12 @@
                                     <th>Bayar</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="daily-tbody">
                                 <!-- Data akan diisi JavaScript -->
                             </tbody>
                         </table>
                     </div>
-                    <button class="btn btn-secondary" id="save-daily-kas">
+                    <button class="btn btn-secondary" onclick="saveDailyKas()">
                         <i class="fas fa-save"></i> Simpan Harian
                     </button>
                 </div>
@@ -469,17 +469,33 @@
         let kasData = JSON.parse(localStorage.getItem('kasData')) || {};
         let journalData = JSON.parse(localStorage.getItem('journalData')) || [];
 
-        // Navigation - FIXED
-        document.querySelectorAll('.nav-tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-                document.querySelectorAll('.content-section').forEach(c => c.classList.remove('active'));
-                
-                this.classList.add('active');
-                const tabId = this.getAttribute('data-tab');
-                document.getElementById(tabId).classList.add('active');
+        // Fungsi untuk menampilkan tab
+        function showTab(tabName) {
+            // Sembunyikan semua tab
+            document.querySelectorAll('.content-section').forEach(tab => {
+                tab.classList.remove('active');
             });
-        });
+            
+            // Hapus active dari semua nav tab
+            document.querySelectorAll('.nav-tab').forEach(nav => {
+                nav.classList.remove('active');
+            });
+            
+            // Tampilkan tab yang dipilih
+            document.getElementById(tabName).classList.add('active');
+            
+            // Tambah active ke nav tab yang dipilih
+            const navTabs = document.querySelectorAll('.nav-tab');
+            if (tabName === 'dashboard') navTabs[0].classList.add('active');
+            if (tabName === 'absen') navTabs[1].classList.add('active');
+            if (tabName === 'jurnal') navTabs[2].classList.add('active');
+            if (tabName === 'kas') navTabs[3].classList.add('active');
+            
+            // Jika tab absen, render ulang tabel
+            if (tabName === 'absen') {
+                renderAttendanceTable();
+            }
+        }
 
         // Initialize
         function initialize() {
@@ -500,67 +516,74 @@
             
             renderTables();
             updateDashboard();
+            
+            // Set tanggal hari ini
+            document.getElementById('journal-date').value = today;
         }
 
         // Render tables
         function renderTables() {
+            renderAttendanceTable();
+            renderKasTables();
+        }
+
+        // Render attendance table
+        function renderAttendanceTable() {
             const today = new Date().toISOString().split('T')[0];
-            
-            // Attendance table
-            const attendanceTbody = document.querySelector('#attendance-table tbody');
+            const attendanceTbody = document.getElementById('attendance-tbody');
             attendanceTbody.innerHTML = '';
+            
             students.forEach((student, index) => {
                 const tr = document.createElement('tr');
+                const currentStatus = attendanceData[today][student] || 'hadir';
+                
                 tr.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${student}</td>
                     <td>
                         <select style="padding: 8px; border-radius: 5px; background: rgba(15, 23, 42, 0.8); color: white; border: 1px solid #60a5fa;" 
                                 onchange="updateAttendance(${index}, this.value)">
-                            <option value="hadir" ${attendanceData[today][student] === 'hadir' ? 'selected' : ''}>Hadir</option>
-                            <option value="sakit" ${attendanceData[today][student] === 'sakit' ? 'selected' : ''}>Sakit</option>
-                            <option value="izin" ${attendanceData[today][student] === 'izin' ? 'selected' : ''}>Izin</option>
-                            <option value="alpa" ${attendanceData[today][student] === 'alpa' ? 'selected' : ''}>Alpa</option>
+                            <option value="hadir" ${currentStatus === 'hadir' ? 'selected' : ''}>Hadir</option>
+                            <option value="sakit" ${currentStatus === 'sakit' ? 'selected' : ''}>Sakit</option>
+                            <option value="izin" ${currentStatus === 'izin' ? 'selected' : ''}>Izin</option>
+                            <option value="alpa" ${currentStatus === 'alpa' ? 'selected' : ''}>Alpa</option>
                         </select>
                     </td>
                 `;
                 attendanceTbody.appendChild(tr);
             });
-
-            // Kas tables
-            renderKasTables();
         }
 
         // Render kas tables
         function renderKasTables() {
             const today = new Date().toISOString().split('T')[0];
+            const monthlyTbody = document.getElementById('monthly-tbody');
+            const dailyTbody = document.getElementById('daily-tbody');
             
-            // Monthly kas
-            const monthlyTbody = document.querySelector('#monthly-kas-table tbody');
             monthlyTbody.innerHTML = '';
-            
-            // Daily kas
-            const dailyTbody = document.querySelector('#daily-kas-table tbody');
             dailyTbody.innerHTML = '';
             
             let totalKas = 0;
             
             students.forEach((student, index) => {
-                // Monthly
+                // Monthly kas
                 const monthlyTr = document.createElement('tr');
+                const monthlyAmount = kasData[student].monthly || 0;
+                
                 monthlyTr.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${student}</td>
                     <td>
-                        <input type="number" id="monthly-kas-${index}" value="${kasData[student].monthly}" 
+                        <input type="number" id="monthly-kas-${index}" value="${monthlyAmount}" 
                                min="0" style="width: 80px; padding: 5px; border-radius: 5px; background: rgba(15, 23, 42, 0.8); color: white; border: 1px solid #60a5fa;">
                     </td>
                 `;
                 monthlyTbody.appendChild(monthlyTr);
                 
-                // Daily
+                // Daily kas
                 const dailyTr = document.createElement('tr');
-                const isPaid = kasData[student].daily.includes(today);
+                const isPaid = kasData[student].daily && kasData[student].daily.includes(today);
+                
                 dailyTr.innerHTML = `
                     <td>${index + 1}</td>
                     <td>${student}</td>
@@ -571,6 +594,133 @@
                 `;
                 dailyTbody.appendChild(dailyTr);
                 
-                totalKas += kasData[student].monthly;
+                totalKas += monthlyAmount;
             });
- 
+            
+            document.getElementById('total-kas').textContent = `Rp ${totalKas.toLocaleString()}`;
+        }
+
+        // Update dashboard
+        function updateDashboard() {
+            const today = new Date().toISOString().split('T')[0];
+            const todayData = attendanceData[today] || {};
+            
+            let hadir = 0, sakit = 0, izin = 0, alpa = 0;
+            
+            students.forEach(student => {
+                const status = todayData[student] || 'hadir';
+                if (status === 'hadir') hadir++;
+                else if (status === 'sakit') sakit++;
+                else if (status === 'izin') izin++;
+                else if (status === 'alpa') alpa++;
+            });
+            
+            document.getElementById('hadir-count').textContent = hadir;
+            document.getElementById('sakit-count').textContent = sakit;
+            document.getElementById('izin-count').textContent = izin;
+            document.getElementById('alpa-count').textContent = alpa;
+            
+            // Update summary table
+            const summaryTbody = document.getElementById('summary-tbody');
+            summaryTbody.innerHTML = '';
+            
+            students.forEach((student, index) => {
+                const status = todayData[student] || 'hadir';
+                const statusColor = {
+                    'hadir': '#4ade80',
+                    'sakit': '#fbbf24',
+                    'izin': '#60a5fa',
+                    'alpa': '#f87171'
+                }[status];
+                
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${student}</td>
+                    <td style="color: ${statusColor}; font-weight: 600;">${status.toUpperCase()}</td>
+                `;
+                summaryTbody.appendChild(tr);
+            });
+        }
+
+        // Update attendance
+        function updateAttendance(index, status) {
+            const today = new Date().toISOString().split('T')[0];
+            const student = students[index];
+            attendanceData[today][student] = status;
+            updateDashboard();
+        }
+
+        // Save attendance
+        function saveAttendance() {
+            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+            alert('Absensi berhasil disimpan!');
+        }
+
+        // Reset attendance
+        function resetAttendance() {
+            const today = new Date().toISOString().split('T')[0];
+            students.forEach(student => {
+                attendanceData[today][student] = 'hadir';
+            });
+            localStorage.setItem('attendanceData', JSON.stringify(attendanceData));
+            renderAttendanceTable();
+            updateDashboard();
+            alert('Absensi telah direset ke Hadir!');
+        }
+
+        // Save journal
+        function saveJournal() {
+            const date = document.getElementById('journal-date').value;
+            const content = document.getElementById('journal-content').value;
+            
+            if (date && content) {
+                journalData.push({ date, content });
+                localStorage.setItem('journalData', JSON.stringify(journalData));
+                alert('Jurnal berhasil disimpan!');
+                document.getElementById('journal-content').value = '';
+            } else {
+                alert('Harap isi tanggal dan isi jurnal!');
+            }
+        }
+
+        // Clear journal form
+        function clearJournalForm() {
+            document.getElementById('journal-content').value = '';
+        }
+
+        // Save monthly kas
+        function saveMonthlyKas() {
+            students.forEach((student, index) => {
+                const input = document.getElementById(`monthly-kas-${index}`);
+                kasData[student].monthly = parseInt(input.value) || 0;
+            });
+            localStorage.setItem('kasData', JSON.stringify(kasData));
+            renderKasTables();
+            alert('Kas bulanan berhasil disimpan!');
+        }
+
+        // Save daily kas
+        function saveDailyKas() {
+            const today = new Date().toISOString().split('T')[0];
+            students.forEach((student, index) => {
+                const checkbox = document.getElementById(`daily-kas-${index}`);
+                if (!kasData[student].daily) kasData[student].daily = [];
+                
+                if (checkbox.checked) {
+                    if (!kasData[student].daily.includes(today)) {
+                        kasData[student].daily.push(today);
+                    }
+                } else {
+                    kasData[student].daily = kasData[student].daily.filter(d => d !== today);
+                }
+            });
+            localStorage.setItem('kasData', JSON.stringify(kasData));
+            alert('Kas harian berhasil disimpan!');
+        }
+
+        // Initialize app
+        initialize();
+    </script>
+</body>
+</html>
